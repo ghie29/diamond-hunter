@@ -1,0 +1,395 @@
+body {
+  background-color: #1a1a1a;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin: 15px 0 10px;
+  background: linear-gradient(90deg, #00ffff, #ffffff, #00ffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+  animation: pulseLogo 3s infinite ease-in-out;
+}
+@keyframes pulseLogo {
+  0%, 100% { text-shadow: 0 0 8px rgba(0, 255, 255, 0.6); }
+  50% { text-shadow: 0 0 14px rgba(0, 255, 255, 1); }
+}
+
+
+.balance-center {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.info-row {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.info span {
+  font-weight: bold;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  max-width: 100%;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.tile {
+  aspect-ratio: 1 / 1;
+  background: #2b2b2b;
+  border: 2px solid #000000;
+  border-radius: 8px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Mobile responsiveness */
+@media (min-width: 600px) {
+  .grid {
+    max-width: 600px;
+  }
+}
+
+
+.tile-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.tile.revealed .tile-inner {
+  transform: rotateY(180deg);
+}
+
+.tile-front,
+.tile-back {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  position: absolute;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.tile-front {
+  background: linear-gradient(to bottom right, #2b2b2b, #1a1a1a);
+  border: 2px solid #000000; /* Black border */
+}
+
+
+.tile-back {
+  transform: rotateY(180deg);
+  background-color: #1f1f1f;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Chromium-style Buttons */
+.button {
+  background-color: #ff9800;
+  color: white;
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-cancel {
+  background-color: #e53935;
+}
+
+.btn-cashout {
+  background-color: #9c27b0;
+}
+
+/* Smaller Chromium-style Bet/Mines Buttons */
+.bet-btn,
+.mines-btn {
+  background-color: #e0e0e0;
+  color: #000;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 0 2px #fff, 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s;
+  min-width: auto;
+}
+
+.bet-btn:hover,
+.mines-btn:hover {
+  background-color: #d5d5d5;
+}
+
+/* Display Boxes for Bet Amount and Mines */
+.display-box {
+  background: linear-gradient(to bottom, #cfd8dc, #b0bec5);
+  color: #000;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  border: 1px solid #90a4ae;
+  box-shadow: inset 0 0 2px #ffffff, 0 1px 3px rgba(0,0,0,0.1);
+  margin: 0 5px;
+}
+
+/* Button Groups */
+.bet-controls,
+.mines-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+/* Main Action */
+.bottom-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Disable State */
+.disabled-btn {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Sound Toggle */
+.audio-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+.audio-toggle button {
+  background: #1b1b1b;
+  border: 2px solid #000;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #e0e0e0;
+  text-shadow: 1px 1px 0 #000;
+  box-shadow: inset 1px 1px 2px #111, inset -1px -1px 2px #2a2a2a;
+  cursor: pointer;
+}
+
+
+/* Popup Styles */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+.popup-content {
+  background: radial-gradient(circle, #444 0%, #222 100%);
+  padding: 40px 60px;
+  border-radius: 20px;
+  border: 4px solid gold;
+  color: #fff;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 40px gold, 0 0 20px #ff0 inset;
+  animation: bounce 0.6s ease;
+  max-width: 90%;
+}
+
+
+.bomb-content {
+  background: #2a0000;
+  color: #ff4444;
+  padding: 30px 40px;
+  font-size: 26px;
+  font-weight: bold;
+  border: 3px solid red;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 20px red;
+  animation: shake 0.5s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes bounce {
+  0%   { transform: scale(0.8); }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1.0); }
+}
+
+@keyframes shake {
+  0% { transform: translateX(-10px); }
+  25% { transform: translateX(10px); }
+  50% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+  100% { transform: translateX(0); }
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* Shared Control Section Styling */
+.control-section {
+  width: 100%;
+  max-width: 340px;
+  margin: 12px auto;
+  text-align: center;
+}
+
+.control-section label {
+  color: #ff9800;
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: block;
+  font-size: 14px;
+}
+
+/* Row layout for bet & mines */
+.control-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Small chromium-style buttons */
+.btn.small {
+  padding: 6px 10px;
+  background-color: #2b2b2b;
+  color: white;
+  border: 2px solid #000000;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  min-width: 50px;
+}
+
+/* Chromium-style display box */
+.value-box {
+  background: #1b1b1b;
+  border: 2px solid #000;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #e0e0e0;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #444;
+  box-shadow: inset 1px 1px 2px #111, inset -1px -1px 2px #2a2a2a;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.info-top,
+.info-bottom {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px auto;
+}
+
+
+
+.control-row.compact {
+  gap: 4px; /* reduce space between buttons */
+  flex-wrap: nowrap;
+}
+
+.btn.tiny {
+  padding: 4px 8px;
+  min-width: unset;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.value-box.small {
+  padding: 4px 8px;
+  font-size: 13px;
+  min-width: auto;
+}
+
+
+/* Beveled button style */
+.btn, .button {
+  background: linear-gradient(to bottom, #2e2e2e, #000000);
+  border: 2px solid #111;
+  border-radius: 6px;
+  box-shadow: inset 0 1px 0 #444, 0 3px 0 #000, 0 3px 5px rgba(0,0,0,0.4);
+  color: #ffffff;
+  font-weight: bold;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+/* Smaller variant for compact buttons */
+.btn.small {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+/* Pressed (active) state for realistic button press */
+.btn:active, .button:active {
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  transform: translateY(2px);
+}
