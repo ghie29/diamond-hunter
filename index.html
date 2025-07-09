@@ -14,7 +14,7 @@
 
 <!-- Balance Top Left -->
 <div class="balance-top-left">
-  Balance: $<span id="balance">1000</span>
+  Balance: ₱<span id="balance">1000</span>
 </div>
 
   <div class="game-container">  
@@ -47,7 +47,7 @@
         <div class="control-row compact">
           <button class="btn small" onclick="changeBet('min')">MIN</button>
           <button class="btn small" onclick="changeBet('-')">−</button>
-          <span class="value-box">Bet: $<span id="betAmount">90</span></span>
+          <span class="value-box">Bet: ₱<span id="betAmount">90</span></span>
           <button class="btn small" onclick="changeBet('+')">+</button>
           <button class="btn small" onclick="changeBet('max')">MAX</button>
         </div>
@@ -84,9 +84,17 @@
   <!-- Popups -->
   <div id="popup" class="popup hidden">
     <div class="popup-content">
-      🎉 You won <strong>$<span id="popup-amount">0.00</span></strong>!
+      🎉 You won <strong>₱<span id="popup-amount">0.00</span></strong>!
     </div>
   </div>
+
+<!-- Press Start Game First Popup -->
+<div id="startGamePopup" class="popup hidden">
+  <div class="popup-content small-popup">
+    ❗ Please press <strong>Start Game</strong>
+  </div>
+</div>
+
 
   <div id="bombPopup" class="popup hidden">
     <div class="bomb-content">
@@ -96,6 +104,6 @@
   </div>
 <!-- Date and Time Bottom Right -->
 <div id="datetime" class="datetime-bottom-right"></div>
-  
+
 </body>
 </html>

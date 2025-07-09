@@ -1,5 +1,5 @@
 let balance = 1000;
-let bet = 90;
+let bet = 10;
 let bombs = [];
 let gameStarted = false;
 let mineCount = 3;
@@ -19,21 +19,22 @@ function startGame() {
   if (gameStarted || bet > balance) return;
 
   gameStarted = true;
-  tilesRevealed = 0;
   revealedTiles = 0;
   multiplier = 1.0;
   bombs = generateBombs(mineCount);
 
   balance -= bet;
   animateValue("balance", balance);
+
   animateValue("multiplierBot", multiplier);
   document.getElementById("winnings").textContent = "0.00";
 
   updateUI();
   createGrid();
-  disableControls();
-  updateMainButton("cancel");
+  disableControls(); // ✅ Already here
+  document.getElementById("mainActionButton").textContent = "💸 Cash Out";
 }
+
 
 function cashOut() {
   const winnings = bet * multiplier;
@@ -99,6 +100,7 @@ function changeBet(type) {
   updateUI();
 }
 
+
 function changeMines(type) {
   if (type === "-" && mineCount > 1) mineCount--;
   if (type === "+" && mineCount < 20) mineCount++;
@@ -133,7 +135,10 @@ function createGrid() {
 }
 
 function handleClick(tile, index) {
-  if (!gameStarted || tile.classList.contains("revealed")) return;
+    if (!gameStarted) {
+    showStartGamePopup(); // 👈 Show "please press start game" popup
+    return;
+  }
 
   tile.classList.add("revealed");
 
@@ -161,6 +166,8 @@ function handleClick(tile, index) {
   }
 }
 
+
+
 function toggleMute() {
   isMuted = !isMuted;
   const muteBtn = document.getElementById("muteButton");
@@ -175,18 +182,20 @@ function toggleMute() {
 }
 
 function disableControls() {
-  document.querySelectorAll('.bet-btn, .mines-btn').forEach(btn => {
+  document.querySelectorAll('.bet-btn, .mines-btn, .btn.small').forEach(btn => {
     btn.disabled = true;
     btn.classList.add('disabled-btn');
   });
 }
 
+
 function enableControls() {
-  document.querySelectorAll('.bet-btn, .mines-btn').forEach(btn => {
+  document.querySelectorAll('.bet-btn, .mines-btn, .btn.small').forEach(btn => {
     btn.disabled = false;
     btn.classList.remove('disabled-btn');
   });
 }
+
 
 function showPopup(amount) {
   const popup = document.getElementById("popup");
@@ -246,101 +255,81 @@ updateUI();
 updateMainButton("start");
 
 
+const usedUsers = new Set();
 
-
-function generateNewLog() {
-  const logBox = document.getElementById("logsBox");
-  const usernames = [
-    "luckybee33", "pixelninja", "user_king23", "nightwolf88",
-    "cryptofox77", "gamer101", "sneakycat", "dreamcatcher", "spartan89"
-  ];
-  const messages = [
-    "won $[amount] 🎉",
-    "cashed out $[amount]",
-    "earned $[amount] 💰",
-    "withdrew $[amount]",
-    "won $[amount] jackpot!"
-  ];
-
-  const user = usernames[Math.floor(Math.random() * usernames.length)];
-  const messageTemplate = messages[Math.floor(Math.random() * messages.length)];
-  const amount = (Math.floor(Math.random() * 50) + 5) * 100; // $500–$5000
-  const message = messageTemplate.replace("[amount]", amount.toLocaleString());
-
-  const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  const div = document.createElement("div");
-  div.textContent = `${time} — ${user} ${message}`;
-  logBox.appendChild(div);
-
-  // Keep only the last 5 logs visible
-  while (logBox.children.length > 5) {
-    logBox.removeChild(logBox.firstChild);
-  }
+function generateRandomUsername() {
+  const names = ["mark", "john", "paul", "mike", "james", "ian", "leo", "jay", "josh", "rey",
+  "jake", "ken", "marc", "eric", "ed", "louie", "neil", "ryan", "tom", "sam",
+  "vince", "carl", "arlo", "dave", "jeff", "joel", "chris", "alden", "alvin", "ron",
+  "bryan", "dan", "gabe", "don", "rj", "joey", "nate", "zack", "sean", "miguel", "miggy",
+  "ced", "franz", "keith", "enzo", "migs", "noel", "pierce", "rolly", "ton", "wade",
+  "caloy", "troy", "juris", "karlo", "raven", "elton", "jolo", "andrei", "cesar", "emil",
+  "gino", "howie", "ice", "jasper", "kobe", "luis", "marlo", "omar", "pao", "ram",
+  "steve", "ty", "ugo", "vic", "xian", "yves", "zoren", "aldo", "ben", "chito", "dennis",
+  "ethan", "fritz", "gil", "henry", "ivan", "juno", "karl", "lem", "manny", "nash",
+  "oscar", "phil", "quinn", "roland", "santi", "tim", "uly", "vince", "warren", "yuri"];
+  let username;
+  do {
+    const name = names[Math.floor(Math.random() * names.length)];
+    const number = Math.floor(Math.random() * 100);
+    username = `${name}${number}`;
+  } while (usedUsers.has(username));
+  usedUsers.add(username);
+  return username;
 }
 
-// Call once at start
-generateInitialLogs();
+function generateMaskedGCashNumber() {
+  const last2 = Math.floor(10 + Math.random() * 90); // Random 2-digit ending
+  return `09***${last2}`;
+}
 
-// Then repeat every 5 seconds
-setInterval(generateNewLog, 5000);
+function generateFakeLog() {
+  if (usedUsers.size >= 500) return; // Limit fake entries
 
+  const actions = [
+    "successfully claimed",
+    "received a GCash payout of",
+    "cashed out via GCash:",
+    "won and withdrew",
+    "prize sent to GCash:"
+  ];
 
-function generateInitialLogs() {
-  const logs = [];
+  const username = generateRandomUsername();
+  const gcash = generateMaskedGCashNumber();
+  const amount = (Math.random() * 400 + 50).toFixed(2);
+  const action = actions[Math.floor(Math.random() * actions.length)];
+
   const now = new Date();
+  const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const date = now.toLocaleDateString();
 
-  for (let i = 0; i < 5; i++) {
-    const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const phone = `09${Math.floor(Math.random() * 90 + 10)}****${Math.floor(Math.random() * 900 + 100)}`;
-    const amount = [150, 200, 300, 500, 1000][Math.floor(Math.random() * 5)];
-    const log = `${timestamp} • ${phone} just cashed out ₱${amount} via GCash!`;
-    logs.push(log);
-  }
+  const log = document.createElement("div");
+  log.className = "log-item";
+  log.textContent = `${date} ${time} - ${username} • ${gcash} ${action} ₱${amount}`;
 
   const logsBox = document.getElementById("logsBox");
-  logsBox.innerHTML = logs.map(msg => `<p>${msg}</p>`).join('');
-}
+  logsBox.prepend(log);
 
-
-function generateInitialLogs() {
-  const logBox = document.getElementById("logsBox");
-  const usernames = [
-    "luckybee33", "pixelninja", "user_king23", "nightwolf88",
-    "cryptofox77", "gamer101", "sneakycat", "dreamcatcher", "spartan89"
-  ];
-  const messages = [
-    "won $[amount] 🎉",
-    "cashed out $[amount]",
-    "earned $[amount] 💰",
-    "withdrew $[amount]",
-    "won $[amount] jackpot!"
-  ];
-
-  for (let i = 0; i < 5; i++) {
-    const user = usernames[Math.floor(Math.random() * usernames.length)];
-    const messageTemplate = messages[Math.floor(Math.random() * messages.length)];
-    const amount = (Math.floor(Math.random() * 50) + 5) * 100; // e.g., $500 - $5,000
-    const message = messageTemplate.replace("[amount]", amount.toLocaleString());
-
-    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const div = document.createElement("div");
-    div.textContent = `${time} — ${user} ${message}`;
-    logBox.appendChild(div);
+  while (logsBox.children.length > 5) {
+    logsBox.removeChild(logsBox.lastChild);
   }
 }
 
-function updateDateTime() {
-  const now = new Date();
-  const formatted = now.toLocaleString('en-PH', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit',
-  });
-  document.getElementById("datetime").textContent = formatted;
+
+// Generate 5 logs on load
+for (let i = 0; i < 5; i++) {
+  setTimeout(generateFakeLog, i * 500); // small delay between each
 }
 
-setInterval(updateDateTime, 1000);
-updateDateTime(); // Initial call
+// Continue generating every 6 seconds
+setInterval(generateFakeLog, 6000);
+
+
+function showStartGamePopup() {
+  const popup = document.getElementById("startGamePopup");
+  popup.classList.remove("hidden");
+
+  setTimeout(() => {
+    popup.classList.add("hidden");
+  }, 2000); // Hide after 2 seconds
+}
