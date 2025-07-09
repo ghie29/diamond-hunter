@@ -72,9 +72,9 @@ body {
 }
 
 /* Mobile responsiveness */
-@media (min-width: 600px) {
+@media (min-width: 100%) {
   .grid {
-    max-width: 600px;
+    max-width: 100%;
   }
 }
 
