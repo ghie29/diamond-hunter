@@ -10,22 +10,22 @@ body {
 }
 
 .logo {
-  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-size: 32px;
   font-weight: bold;
-  text-align: center;
-  margin: 15px 0 10px;
-  background: linear-gradient(90deg, #00ffff, #ffffff, #00ffff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
-  animation: pulseLogo 3s infinite ease-in-out;
+  margin: 25px 0 15px;
+  color: #fff;
+  text-shadow: 2px 2px 4px #000;
 }
-@keyframes pulseLogo {
-  0%, 100% { text-shadow: 0 0 8px rgba(0, 255, 255, 0.6); }
-  50% { text-shadow: 0 0 14px rgba(0, 255, 255, 1); }
+
+.logo-img {
+  width: 70px;
+  height: 70px;
 }
+
 
 
 .balance-center {
