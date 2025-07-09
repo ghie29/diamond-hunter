@@ -7,16 +7,20 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Floating Audio Toggle -->
-  <div class="audio-toggle">
-    <button id="muteButton" onclick="toggleMute()">🔊</button>
-  </div>  
+<!-- Top Right Controls -->
+<div class="top-right-controls">
+  <button class="header-btn" id="muteButton" onclick="toggleMute()">🔊</button>
+  <button onclick="openProfile()" class="header-btn">👤</button>
+  <button class="header-btn">💸 Cash Out</button>
+  <button class="header-btn" onclick="openDeposit()">➕ Deposit</button>
+</div>
+
 
 <!-- Balance Top Left -->
 <div class="balance-top-left">
   Bal: ₱<span id="balance">1000</span>
 </div>
-
+<br><br>
   <div class="game-container">  
     <div class="wrapper">
 
@@ -52,7 +56,7 @@
       <div class="control-row compact">
         <button class="btn small" onclick="changeBet('min')">MIN</button>
         <button class="btn small" onclick="changeBet('-')">−</button>
-        <input  id="betInput" type="number" class="value-box input-box" min="1" value="1" />
+        ₱<input  id="betInput" type="number" class="value-box input-box" min="1" max="100" value="1" />
         <button class="btn small" onclick="changeBet('+')">+</button>
         <button class="btn small" onclick="changeBet('max')">MAX</button>
       </div>
@@ -113,6 +117,61 @@
 
 <!-- Date and Time Bottom Right -->
 <div id="datetime" class="datetime-bottom-right"></div>
+
+
+
+<!-- Avatar Modal -->
+<div id="profileModal" class="popup hidden">
+  <div class="popup-content avatar-popup">
+    <button class="close-btn" onclick="closeProfile()">✕</button>
+    <img src="assets/avatar/1.png" alt="Avatar" class="avatar-modal-img" />
+    <p class="nickname-label">Nickname: <span id="playerNickname">player123</span></p>
+    <p class="balance-label">Balance: ₱<span id="playerBalance">0.00</span></p>
+  </div>
+</div>
+
+
+<!-- Cashout Modal -->
+<div id="cashoutModal" class="popup hidden">
+  <div class="popup-content small-popup">
+    <strong>📤 Cash Out</strong><br>
+    Enter GCash number and amount<br><br>
+    <input type="text" placeholder="09XXXXXXXXX" class="input-field" /><br>
+    <input type="number" placeholder="Amount" class="input-field" /><br><br>
+    <button class="button btn small">Submit</button>
+    <button class="button btn small" onclick="closeModal('cashoutModal')">Cancel</button>
+  </div>
+</div>
+
+<!-- Deposit Modal -->
+<div id="depositModal" class="popup hidden">
+  <div class="popup-content deposit-popup">
+    <button class="close-btn" onclick="closeDeposit()">✕</button>
+    <h3>Deposit</h3>
+
+    <div class="quick-amounts">
+      <button onclick="selectDepositAmount(20)">₱20</button>
+      <button onclick="selectDepositAmount(50)">₱50</button>
+      <button onclick="selectDepositAmount(100)">₱100</button>
+      <button onclick="selectDepositAmount(200)">₱300</button>
+      <button onclick="selectDepositAmount(500)">₱500</button>
+      <button onclick="selectDepositAmount(1000)">₱1000</button>
+    </div>
+
+    <p style="margin-top: 15px;">Scan QR to complete payment:</p>
+    <div class="qr-wrapper">
+      <img src="assets/images/gcash-qr.png" alt="GCash QR Code" />
+    </div>
+
+    <p style="margin-top: 10px;">Or enter manually:</p>
+    <input type="number" id="depositAmount" placeholder="₱ Amount" min="1" step="1" />
+
+    <button class="button btn-deposit" onclick="confirmDeposit()">💰 Confirm Deposit</button>
+  </div>
+</div>
+
+
+
 
 </body>
 </html>

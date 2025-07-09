@@ -7,7 +7,16 @@ let multiplier = 1.04; // 👈 set default for 1 mine
 let revealedTiles = 0;
 let isMuted = false;
 let tilesRevealed = 0;
+let nickname = "Player001";
+let selectedAvatar = "1.png";
 
+function selectAvatar(filename) {
+  selectedAvatar = filename;
+  document.querySelectorAll(".avatar-option").forEach(el => {
+    el.classList.remove("selected");
+    if (el.src.includes(filename)) el.classList.add("selected");
+  });
+}
 
 function calculateBaseMultiplier(mineCount) {
   // Base multiplier for 1 mine
@@ -48,7 +57,13 @@ function updateUI() {
 
   animateValue("multiplierBot", multiplier);
   animateValue("balance", balance);
-}
+
+  const profileBalEl = document.getElementById("profileBalance");
+  if (profileBalEl) {
+    profileBalEl.textContent = balance.toFixed(2);
+  }
+}  
+
 
 // Allow direct typing
 document.getElementById("betInput").addEventListener("input", (e) => {
@@ -153,7 +168,7 @@ function changeBet(type) {
   if (type === "min") bet = 1;
   else if (type === "-") bet = Math.max(1, bet - 1);
   else if (type === "+") bet = Math.min(balance, bet + 1);
-  else if (type === "max") bet = Math.min(balance, 500);
+  else if (type === "max") bet = Math.min(balance, 100);
   updateUI();
 }
 
@@ -401,4 +416,88 @@ function showStartGamePopup() {
   setTimeout(() => {
     popup.classList.add("hidden");
   }, 2000); // Hide after 2 seconds
+}
+
+
+function showProfileModal() {
+  document.getElementById("nicknameInput").value = nickname;
+  document.getElementById("profileBalance").textContent = balance.toFixed(2);
+
+  // highlight the selected avatar
+  document.querySelectorAll(".avatar-option").forEach(el => {
+    el.classList.remove("selected");
+    if (el.src.includes(selectedAvatar)) el.classList.add("selected");
+  });
+
+  document.getElementById("profileModal").classList.remove("hidden");
+}
+
+
+
+function showCashoutModal() {
+  document.getElementById("cashoutModal").classList.remove("hidden");
+}
+
+function showDepositModal() {
+  document.getElementById("depositModal").classList.remove("hidden");
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add("hidden");
+}
+
+function saveNickname() {
+  const newNick = document.getElementById("nicknameInput").value.trim();
+  if (newNick) nickname = newNick;
+
+  // You can optionally store selectedAvatar in localStorage or display it in game
+  alert(`Nickname: ${nickname}\nAvatar: ${selectedAvatar}`);
+  closeProfileModal();
+}
+
+function openProfile() {
+  document.getElementById('playerNickname').textContent = "player123"; // Update this if nickname is editable
+  document.getElementById('playerBalance').textContent = balance.toFixed(2); // Dynamic balance
+  document.getElementById('profileModal').classList.remove('hidden');
+}
+
+
+// Optional: Close the modal on click anywhere outside
+document.addEventListener('click', function (e) {
+  const modal = document.getElementById('profileModal');
+  if (!modal.classList.contains('hidden') && !modal.contains(e.target) && e.target.closest('.header-btn') === null) {
+    modal.classList.add('hidden');
+  }
+});
+
+function closeProfile() {
+  document.getElementById('profileModal').classList.add('hidden');
+}
+
+function openDeposit() {
+  document.getElementById('depositModal').classList.remove('hidden');
+}
+
+function closeDeposit() {
+  document.getElementById('depositModal').classList.add('hidden');
+}
+
+function confirmDeposit() {
+  const amountInput = document.getElementById('depositAmount');
+  const amount = parseFloat(amountInput.value);
+
+  if (isNaN(amount) || amount <= 0) {
+    alert("Please enter a valid amount.");
+    return;
+  }
+
+  balance += amount;
+  animateValue("balance", balance);
+  updateUI();
+  closeDeposit();
+  amountInput.value = '';
+}
+
+function selectDepositAmount(amount) {
+  document.getElementById("depositAmount").value = amount;
 }

@@ -135,7 +135,7 @@ body {
 
 .tile-back {
   transform: rotateY(180deg);
-  background-color: #1f1f1f;
+  background-color: #4d6a73;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -215,25 +215,168 @@ body {
   pointer-events: none;
 }
 
-/* Sound Toggle */
-.audio-toggle {
+.top-right-controls {
   position: absolute;
   top: 10px;
-  right: 10px;
-  z-index: 10;
+  right: 60px;
+  display: flex;
+  gap: 6px;
+  z-index: 20;
 }
 
-.audio-toggle button {
+.header-btn {
   background: #1b1b1b;
-  border: 2px solid #000;
-  padding: 6px 12px;
+  color: #fff;
+  border: 2px solid #4d6a73;
   border-radius: 6px;
-  font-size: 14px;
-  color: #e0e0e0;
-  text-shadow: 1px 1px 0 #000;
-  box-shadow: inset 1px 1px 2px #111, inset -1px -1px 2px #2a2a2a;
+  padding: 6px 10px;
+  font-size: 13px;
   cursor: pointer;
+  font-weight: bold;
 }
+
+
+.input-field {
+  width: 90%;
+  padding: 6px;
+  margin: 5px 0;
+  border-radius: 6px;
+  border: 1px solid #999;
+  font-size: 14px;
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.avatar-popup {
+  position: relative;
+  background: radial-gradient(circle, #444 0%, #222 100%);
+  padding: 20px 30px;
+  border-radius: 15px;
+  border: 3px solid #4d6a73;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 0 25px #4d6a73;
+}
+
+
+.avatar-modal-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 2px solid #4d6a73;
+}
+
+.nickname-label,
+.balance-label {
+  font-size: 15px;
+  margin: 4px 0;
+  font-weight: bold;
+  color: #e0e0e0;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  font-size: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #fff;
+}
+
+
+.deposit-popup {
+  position: relative;
+  background: radial-gradient(circle, #444 0%, #222 100%);
+  padding: 25px 30px;
+  border-radius: 15px;
+  border: 3px solid #4d6a73;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 0 25px #4d6a73;
+  width: 280px;
+}
+
+.deposit-popup h3 {
+  margin-top: 0;
+  color: #4d6a73;
+}
+
+.deposit-popup input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border: 2px solid #4d6a73;
+  border-radius: 8px;
+  background: #1b1b1b;
+  color: #fff;
+  text-align: center;
+}
+
+.btn-deposit {
+  background-color: #4d6a73;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+.btn-deposit:hover {
+  background-color: #5f7a85;
+}
+
+.quick-amounts {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.quick-amounts button {
+  background-color: #4d6a73;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease;
+}
+
+.quick-amounts button:hover {
+  background-color: #5f7a85;
+}
+
+.qr-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.qr-wrapper img {
+  width: 140px;
+  height: 140px;
+  border-radius: 10px;
+  border: 2px solid #4d6a73;
+}
+
+
 
 
 /* Popup Styles */
