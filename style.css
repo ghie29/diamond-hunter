@@ -468,7 +468,7 @@ body {
 }
 
 /* Mobile friendly adjustments */
-@media (max-width: 480px) {
+@media (max-width: 100%) {
   .logo {
     font-size: 18px;
     flex-direction: column;
