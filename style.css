@@ -443,8 +443,6 @@ body {
 
 /* Main game container */
 .game-container {
-  width: 100%;
-  max-width: 400px;
   margin: 0 auto; /* Center on large screens */
   padding: 0 10px;
   box-sizing: border-box;
