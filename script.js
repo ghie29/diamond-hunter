@@ -244,3 +244,87 @@ function animateValue(id, end, duration = 800) {
 createGrid();
 updateUI();
 updateMainButton("start");
+
+
+
+
+function generateNewLog() {
+  const logBox = document.getElementById("logsBox");
+  const usernames = [
+    "luckybee33", "pixelninja", "user_king23", "nightwolf88",
+    "cryptofox77", "gamer101", "sneakycat", "dreamcatcher", "spartan89"
+  ];
+  const messages = [
+    "won $[amount] 🎉",
+    "cashed out $[amount]",
+    "earned $[amount] 💰",
+    "withdrew $[amount]",
+    "won $[amount] jackpot!"
+  ];
+
+  const user = usernames[Math.floor(Math.random() * usernames.length)];
+  const messageTemplate = messages[Math.floor(Math.random() * messages.length)];
+  const amount = (Math.floor(Math.random() * 50) + 5) * 100; // $500–$5000
+  const message = messageTemplate.replace("[amount]", amount.toLocaleString());
+
+  const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const div = document.createElement("div");
+  div.textContent = `${time} — ${user} ${message}`;
+  logBox.appendChild(div);
+
+  // Keep only the last 5 logs visible
+  while (logBox.children.length > 5) {
+    logBox.removeChild(logBox.firstChild);
+  }
+}
+
+// Call once at start
+generateInitialLogs();
+
+// Then repeat every 5 seconds
+setInterval(generateNewLog, 5000);
+
+
+function generateInitialLogs() {
+  const logs = [];
+  const now = new Date();
+
+  for (let i = 0; i < 5; i++) {
+    const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const phone = `09${Math.floor(Math.random() * 90 + 10)}****${Math.floor(Math.random() * 900 + 100)}`;
+    const amount = [150, 200, 300, 500, 1000][Math.floor(Math.random() * 5)];
+    const log = `${timestamp} • ${phone} just cashed out ₱${amount} via GCash!`;
+    logs.push(log);
+  }
+
+  const logsBox = document.getElementById("logsBox");
+  logsBox.innerHTML = logs.map(msg => `<p>${msg}</p>`).join('');
+}
+
+
+function generateInitialLogs() {
+  const logBox = document.getElementById("logsBox");
+  const usernames = [
+    "luckybee33", "pixelninja", "user_king23", "nightwolf88",
+    "cryptofox77", "gamer101", "sneakycat", "dreamcatcher", "spartan89"
+  ];
+  const messages = [
+    "won $[amount] 🎉",
+    "cashed out $[amount]",
+    "earned $[amount] 💰",
+    "withdrew $[amount]",
+    "won $[amount] jackpot!"
+  ];
+
+  for (let i = 0; i < 5; i++) {
+    const user = usernames[Math.floor(Math.random() * usernames.length)];
+    const messageTemplate = messages[Math.floor(Math.random() * messages.length)];
+    const amount = (Math.floor(Math.random() * 50) + 5) * 100; // e.g., $500 - $5,000
+    const message = messageTemplate.replace("[amount]", amount.toLocaleString());
+
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const div = document.createElement("div");
+    div.textContent = `${time} — ${user} ${message}`;
+    logBox.appendChild(div);
+  }
+}
