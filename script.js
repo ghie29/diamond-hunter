@@ -1,39 +1,97 @@
 let balance = 1000;
-let bet = 10;
+let bet = 1;
 let bombs = [];
 let gameStarted = false;
-let mineCount = 3;
-let multiplier = 1.0;
+let mineCount = 1;
+let multiplier = 1.04; // 👈 set default for 1 mine
 let revealedTiles = 0;
-let tilesRevealed = 0;
 let isMuted = false;
+let tilesRevealed = 0;
+
+
+function calculateBaseMultiplier(mineCount) {
+  // Base multiplier for 1 mine
+  const base = 1.04;
+  const maxMines = 24;
+  const maxMultiplier = 3.14;
+
+  if (mineCount <= 1) return base;
+  if (mineCount >= maxMines) return maxMultiplier;
+
+  const multiplier = base + (mineCount - 1) * ((maxMultiplier - base) / (maxMines - 1));
+  return parseFloat(multiplier.toFixed(2));
+}
+
+
+
+function calculateStartingMultiplier(mines) {
+  const totalTiles = 25;
+  const safeTiles = totalTiles - mines;
+
+  if (safeTiles <= 0 || mines >= totalTiles) return 0;
+
+  const base = 1.04; // Starting multiplier for 1 mine
+
+  // Use logarithmic scale to simulate realistic risk-reward curve
+  const multiplier = base + Math.log10(mines + 1) * 1.5;
+
+  return parseFloat(multiplier.toFixed(2));
+}
+
 
 function updateUI() {
-  animateValue("balance", balance);
-  document.getElementById("betAmount").textContent = bet.toFixed(0);
-  document.getElementById("mineCount").textContent = mineCount;
+  const betInput = document.getElementById("betInput");
+  const mineInput = document.getElementById("mineInput");
+
+  if (betInput) betInput.value = bet;
+  if (mineInput) mineInput.value = mineCount;
+
   animateValue("multiplierBot", multiplier);
+  animateValue("balance", balance);
 }
+
+// Allow direct typing
+document.getElementById("betInput").addEventListener("input", (e) => {
+  const value = parseInt(e.target.value);
+  if (!isNaN(value) && value >= 1 && value <= balance) {
+    bet = value;
+    updateUI();
+  }
+});
+
+document.getElementById("mineInput").addEventListener("input", (e) => {
+  const value = parseInt(e.target.value);
+  if (!isNaN(value) && value >= 1 && value <= 24) {
+    mineCount = value;
+    multiplier = calculateBaseMultiplier(mineCount);
+    updateUI();
+  }
+});
+
+
 
 function startGame() {
   if (gameStarted || bet > balance) return;
-
   gameStarted = true;
   revealedTiles = 0;
-  multiplier = 1.0;
   bombs = generateBombs(mineCount);
 
+  multiplier = calculateBaseMultiplier(mineCount); // ✅ Use calculated base multiplier
+
+  animateValue("balance", balance - bet);
   balance -= bet;
-  animateValue("balance", balance);
 
   animateValue("multiplierBot", multiplier);
   document.getElementById("winnings").textContent = "0.00";
 
   updateUI();
   createGrid();
-  disableControls(); // ✅ Already here
+  disableControls();
   document.getElementById("mainActionButton").textContent = "💸 Cash Out";
 }
+
+
+
 
 
 function cashOut() {
@@ -57,11 +115,10 @@ function resetGame() {
   bombs = [];
   tilesRevealed = 0;
   revealedTiles = 0;
-  multiplier = 1.0;
   updateUI();
   createGrid();
   enableControls();
-  updateMainButton("start");
+  document.getElementById("mainActionButton").textContent = "▶ Start Game";
 }
 
 function handleMainAction() {
@@ -93,9 +150,9 @@ function updateMainButton(state) {
 }
 
 function changeBet(type) {
-  if (type === "min") bet = 10;
-  else if (type === "-") bet = Math.max(10, bet - 10);
-  else if (type === "+") bet = Math.min(balance, bet + 10);
+  if (type === "min") bet = 1;
+  else if (type === "-") bet = Math.max(1, bet - 1);
+  else if (type === "+") bet = Math.min(balance, bet + 1);
   else if (type === "max") bet = Math.min(balance, 500);
   updateUI();
 }
@@ -103,9 +160,16 @@ function changeBet(type) {
 
 function changeMines(type) {
   if (type === "-" && mineCount > 1) mineCount--;
-  if (type === "+" && mineCount < 20) mineCount++;
+  if (type === "+" && mineCount < 24) mineCount++;
+
+  multiplier = calculateBaseMultiplier(mineCount); // ✅ Update multiplier with new mine count
+  animateValue("multiplierBot", multiplier);       // ✅ Animate multiplier on screen
+
   updateUI();
 }
+
+
+
 
 function generateBombs(count) {
   const indexes = [];
@@ -216,14 +280,19 @@ function showPopup(amount) {
 }
 
 function showBombPopup() {
-  const popup = document.getElementById("bombPopup");
-  popup.classList.remove("hidden");
+  if (!isMuted) document.getElementById("bombSound").play();
 
+  // Shake the entire wrapper
+  const wrapper = document.querySelector('.wrapper');
+  wrapper.classList.add('shake');
+
+  // Reset game after short delay
   setTimeout(() => {
-    popup.classList.add("hidden");
+    wrapper.classList.remove('shake');
     resetGame();
-  }, 2500);
+  }, 600);
 }
+
 
 function animateValue(id, end, duration = 800) {
   const obj = document.getElementById(id);
