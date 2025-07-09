@@ -28,11 +28,18 @@ body {
 
 
 
-.balance-center {
-  font-size: 18px;
-  text-align: center;
-  margin-bottom: 10px;
+.balance-top-left {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 14px;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: #fff;
+  z-index: 10;
 }
+
 
 .info-row {
   width: 100%;
@@ -449,7 +456,6 @@ body {
 }
 
 
-
 /* Responsive grid */
 .grid {
   display: grid;
@@ -490,3 +496,15 @@ body {
   }
 }
 
+.datetime-bottom-right {
+  position: fixed;
+  bottom: 6px;
+  right: 8px;
+  font-size: 11px; /* smaller font */
+  color: #bbb;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 3px 6px;
+  border-radius: 4px;
+  z-index: 10;
+  font-family: monospace;
+}

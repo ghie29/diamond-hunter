@@ -11,96 +11,91 @@
   <div class="audio-toggle">
     <button id="muteButton" onclick="toggleMute()">🔊</button>
   </div>  
-<div class="game-container">  
-  <div class="wrapper">
 
-<!-- Centered Logo/Game Name -->
-<div class="logo">
-  <img src="assets/images/diamond.webp" alt="Diamond Logo" class="logo-img" />
-  <strong>Diamond Hunt</strong>
+<!-- Balance Top Left -->
+<div class="balance-top-left">
+  Balance: $<span id="balance">1000</span>
 </div>
 
+  <div class="game-container">  
+    <div class="wrapper">
 
+      <!-- Logo -->
+      <div class="logo">
+        <img src="assets/images/diamond.webp" alt="Diamond Logo" class="logo-img" />
+        <strong>Diamond Hunt</strong>
+      </div>
 
-<div class="info-wrapper">
-  
-<div class="info-top">
-  <span class="value-box">
-    Balance: $<span id="balance">1000</span>
-  </span>
-</div>
+      <!-- Info -->
+      <div class="info-wrapper">
+        <div class="info-bottom">
+          <span class="value-box">
+            Multiplier: x<span id="multiplierBot">1.00</span>
+          </span>
+          <span class="value-box">
+            Winnings: $<span id="winnings">0.00</span>
+          </span>
+        </div>
+      </div>
 
-<div class="info-bottom">
-  <span class="value-box">
-    Multiplier: x<span id="multiplierBot">1.00</span>
-  </span>
-  <span class="value-box">
-    Winnings: $<span id="winnings">0.00</span>
-  </span>
-</div>
+      <!-- Grid -->
+      <div class="grid" id="grid"></div>
 
+      <!-- Bet Controls -->
+      <div class="control-section">
+        <label>Bet Controls</label>
+        <div class="control-row compact">
+          <button class="btn small" onclick="changeBet('min')">MIN</button>
+          <button class="btn small" onclick="changeBet('-')">−</button>
+          <span class="value-box">Bet: $<span id="betAmount">90</span></span>
+          <button class="btn small" onclick="changeBet('+')">+</button>
+          <button class="btn small" onclick="changeBet('max')">MAX</button>
+        </div>
+      </div>
 
-<!-- Grid -->
-<div class="grid" id="grid"></div>
+      <!-- Mine Controls -->
+      <div class="control-section">
+        <label>Mine Controls</label>
+        <div class="control-row">
+          <button class="btn small" onclick="changeMines('-')">−</button>
+          <span class="value-box"><span id="mineCount">3</span> Mines</span>
+          <button class="btn small" onclick="changeMines('+')">+</button>
+        </div>
+      </div>
 
-<!-- Bet Controls -->
-<div class="control-section">
-  <label>Bet Controls</label>
-  <div class="control-row compact">
-    <button class="btn small" onclick="changeBet('min')">MIN</button>
-    <button class="btn small" onclick="changeBet('-')">−</button>
-    <span class="value-box">Bet: $<span id="betAmount">90</span></span>
-    <button class="btn small" onclick="changeBet('+')">+</button>
-    <button class="btn small" onclick="changeBet('max')">MAX</button>
+      <!-- Main Action -->
+      <div class="bottom-panel">
+        <button class="button btn-start" id="mainActionButton" onclick="handleMainAction()">▶ Start Game</button>
+      </div>
+
+<!-- Logs -->
+      <div class="logs-box" id="logsBox"></div>    
+
+    </div>
   </div>
-</div>
 
-
-<!-- Mine Controls -->
-<div class="control-section">
-  <label>Mine Controls</label>
-  <div class="control-row">
-    <button class="btn small" onclick="changeMines('-')">−</button>
-    <span class="value-box"><span id="mineCount">3</span> Mines</span>
-    <button class="btn small" onclick="changeMines('+')">+</button>
-  </div>
-</div>
-
-<!-- Start/Cash Out Button -->
-<div class="bottom-panel">
-  <button class="button btn-start" id="mainActionButton" onclick="handleMainAction()">▶ Start Game</button>
-</div>
-
-
-<!-- Logs Box -->
-<div class="logs-box" id="logsBox">
-  <!-- Logs will be injected here -->
-</div>
-
-</div>
-
-
+  <!-- Scripts -->
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <audio id="winSound" src="sounds/win.mp3" preload="auto"></audio>
   <audio id="bombSound" src="sounds/explosion.mp3" preload="auto"></audio>
   <audio id="flipSound" src="sounds/flip.mp3" preload="auto"></audio>
 
-  <!-- Winning Popup -->
+  <!-- Popups -->
   <div id="popup" class="popup hidden">
     <div class="popup-content">
       🎉 You won <strong>$<span id="popup-amount">0.00</span></strong>!
     </div>
   </div>
 
-<!-- Bomb Explosion Popup -->
-<div id="bombPopup" class="popup hidden">
-  <div class="bomb-content">
-    💣 BOOM!<br>
-    You hit a bomb!
+  <div id="bombPopup" class="popup hidden">
+    <div class="bomb-content">
+      💣 BOOM!<br>
+      You hit a bomb!
+    </div>
   </div>
-</div>
-
-</div>
+<!-- Date and Time Bottom Right -->
+<div id="datetime" class="datetime-bottom-right"></div>
+  
 </body>
 </html>
