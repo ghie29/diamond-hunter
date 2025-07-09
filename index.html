@@ -34,7 +34,7 @@
       <!-- Info -->
       <div class="info-wrapper">
         <div class="info-bottom">
-          <span class="value-box">
+          <span class="value-box ">
             Multiplier: x<span id="multiplierBot">1.04</span>
           </span>
           <span class="value-box">
@@ -52,7 +52,7 @@
       <div class="control-row compact">
         <button class="btn small" onclick="changeBet('min')">MIN</button>
         <button class="btn small" onclick="changeBet('-')">−</button>
-        <input id="betInput" type="number" class="value-box input-box" min="1" value="1" />
+        <input  id="betInput" type="number" class="value-box input-box" min="1" value="1" />
         <button class="btn small" onclick="changeBet('+')">+</button>
         <button class="btn small" onclick="changeBet('max')">MAX</button>
       </div>
@@ -60,10 +60,10 @@
 
     <!-- Mine Controls -->
     <div class="control-section">
-      <label>Mine Controls</label>
+      <label class="">Bomb Controls</label>
       <div class="control-row">
         <button class="btn small" onclick="changeMines('-')">−</button>
-        <input id="mineInput" type="number" class="value-box input-box" min="1" max="24" value="1" />
+        <input  id="mineInput" type="number" class="value-box input-box" min="1" max="24" value="1" />
         <button class="btn small" onclick="changeMines('+')">+</button>
       </div>
     </div>
@@ -75,7 +75,10 @@
       </div>
 
 <!-- Logs -->
-      <div class="logs-box" id="logsBox"></div>    
+<div class="logs-box">
+  <div id="logsBox" class="logs-list"></div>
+</div>
+
 
     </div>
   </div>
