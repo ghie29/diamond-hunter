@@ -444,8 +444,9 @@ body {
 /* Main game container */
 .game-container {
   margin: 0 auto; /* Center on large screens */
-  padding: 0 10px;
   box-sizing: border-box;
+  minheight: 100%;
+  minwidth: 90%;
 }
 
 /* Ensure all internal sections scale properly */
