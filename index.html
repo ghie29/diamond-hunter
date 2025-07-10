@@ -1,178 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content=" default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; ">
-  <title>Diamond Hunt</title>
-  <link rel="stylesheet" href="https://diamond-hunter-itny.vercel.app/style.css" integrity="sha384-TyHBRl7LJDSUl90tFPAVcSo9MGPbC147NWZlueF6Lgfp6FrGtlQjpHy1LWHFllsx" crossorigin="anonymous">
-</head>
-<body>
-<!-- Top Right Controls -->
-<div class="top-right-controls">
-  <button class="header-btn" id="muteButton" onclick="toggleMute()">🔊</button>
-  <button onclick="openProfile()" class="header-btn">👤</button>
-  <button class="header-btn">💸 Cash Out</button>
-  <button class="header-btn" onclick="openDeposit()">➕ Deposit</button>
-</div>
-
-
-<!-- Balance Top Left -->
-<div class="balance-top-left">
-  Bal: ₱<span id="balance">1000</span>
-</div>
-<br><br>
-  <div class="game-container">  
-    <div class="wrapper">
-
-<!-- Centered Logo/Game Name -->
-<div class="logo">
-  <div class="logo-img-wrapper">
-    <img src="assets/images/diamond.webp" alt="Diamond Logo" class="logo-img" />
-  </div>
-  <div class="logo-text">
-    <strong>Diamond Hunt</strong>
-  </div>
-</div>
-
-
-      <!-- Info -->
-      <div class="info-wrapper">
-        <div class="info-bottom">
-          <span class="value-box ">
-            Multiplier: x<span id="multiplierBot">1.04</span>
-          </span>
-          <span class="value-box">
-            Winnings: ₱<span id="winnings">0.00</span>
-          </span>
-        </div>
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Diamond Hunt</title>
+      <link rel="stylesheet" href="style.css" />
+   </head>
+   <body>
+      <!-- Top Right Controls -->
+      <div class="top-right-controls">
+         <button class="button" id="muteButton" onclick="toggleMute()">🔊</button>
+         <button onclick="openProfile()" class="button-style-alt">Profile</button>
+         <button class="button btn-start" onclick="openCashoutModal()">Cash Out</button>
+         <button id="depositBtn" class="button" onclick="openDeposit()">Deposit</button>
       </div>
-
-      <!-- Grid -->
-      <div class="grid" id="grid"></div>
-
-    <!-- Bet Controls -->
-    <div class="control-section">
-      <label>Bet Controls</label>
-      <div class="control-row compact">
-        <button class="btn small" onclick="changeBet('min')">MIN</button>
-        <button class="btn small" onclick="changeBet('-')">−</button>
-        ₱<input  id="betInput" type="number" class="value-box input-box" min="1" max="100" value="1" />
-        <button class="btn small" onclick="changeBet('+')">+</button>
-        <button class="btn small" onclick="changeBet('max')">MAX</button>
+      <!-- Balance Top Left -->
+      <div class="balance-top-left">
+         Bal: ₱<span id="balance">1000</span>
       </div>
-    </div>
-
-    <!-- Mine Controls -->
-    <div class="control-section">
-      <label class="">Bomb Controls</label>
-      <div class="control-row">
-        <button class="btn small" onclick="changeMines('-')">−</button>
-        <input  id="mineInput" type="number" class="value-box input-box" min="1" max="24" value="1" />
-        <button class="btn small" onclick="changeMines('+')">+</button>
+      <br><br>
+      <div class="game-container">
+         <div class="wrapper">
+            <!-- Centered Logo/Game Name -->
+            <div class="logo">
+               <div class="logo-img-wrapper">
+                  <img src="assets/images/diamond.webp" alt="Diamond Logo" class="logo-img" />
+               </div>
+               <div class="logo-text">
+                  <strong>Diamond Hunt</strong>
+               </div>
+            </div>
+            <!-- Info -->
+            <div class="info-wrapper">
+               <div class="info-bottom">
+                  <span class="value-box ">
+                  Multiplier: x<span id="multiplierBot">1.04</span>
+                  </span>
+                  <span class="value-box">
+                  Winnings: ₱<span id="winnings">0.00</span>
+                  </span>
+               </div>
+            </div>
+            <!-- Grid -->
+            <div class="grid" id="grid"></div>
+            <!-- Bet Controls -->
+            <div class="control-section">
+               <label>Bet Controls</label>
+               <div class="control-row compact">
+                  <button class="btn small" onclick="changeBet('min')">MIN</button>
+                  <button class="btn small" onclick="changeBet('-')">−</button>
+                  <input class="value-box" type="number" id="betInput" min="1" max="100" onchange="changeBet('input')" />
+                  <button class="btn small" onclick="changeBet('+')">+</button>
+                  <button class="btn small" onclick="changeBet('max')">MAX</button>
+               </div>
+            </div>
+            <!-- Mine Controls -->
+            <div class="control-section">
+               <label class="">Bomb Controls</label>
+               <div class="control-row">
+                  <button class="btn small" onclick="changeMines('-')">−</button>
+                  <input class="value-box" type="number" id="mineInput" min="1" max="24" onchange="changeMines('input')" />
+                  <button class="btn small" onclick="changeMines('+')">+</button>
+               </div>
+            </div>
+            <!-- Main Action -->
+            <div class="bottom-panel">
+               <button class="button btn-start" id="mainActionButton" onclick="handleMainAction()">▶ Start Game</button>
+            </div>
+            <!-- Logs -->
+            <div class="logs-box">
+               <div id="logsBox" class="logs-list"></div>
+            </div>
+         </div>
       </div>
-    </div>
-
-
-      <!-- Main Action -->
-      <div class="bottom-panel">
-        <button class="button btn-start" id="mainActionButton" onclick="handleMainAction()">▶ Start Game</button>
+      <!-- Scripts -->
+      <script src="script.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+      <audio id="winSound" src="sounds/win.wav" preload="auto"></audio>
+      <audio id="bombSound" src="sounds/explosion.mp3" preload="auto"></audio>
+      <audio id="flipSound" src="sounds/flip.mp3" preload="auto"></audio>
+      <!-- Popups -->
+      <div id="popup" class="popup hidden">
+         <div class="popup-content">
+            🎉 You won <strong>₱<span id="popup-amount">0.00</span></strong>!
+         </div>
       </div>
-
-<!-- Logs -->
-<div class="logs-box">
-  <div id="logsBox" class="logs-list"></div>
-</div>
-
-
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="https://diamond-hunter-itny.vercel.app/script.js" integrity="sha384-2mnUhZ9OQJhnfAtfhRdSvVRseqsvWBdmakiEV5tOh29NbkRbASOQp9mlaW7hFn7b" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <audio id="winSound" src="sounds/win.wav" preload="auto"></audio>
-  <audio id="bombSound" src="sounds/explosion.mp3" preload="auto"></audio>
-  <audio id="flipSound" src="sounds/flip.mp3" preload="auto"></audio>
-
-  <!-- Popups -->
-  <div id="popup" class="popup hidden">
-    <div class="popup-content">
-      🎉 You won <strong>₱<span id="popup-amount">0.00</span></strong>!
-    </div>
-  </div>
-
-<!-- Press Start Game First Popup -->
-<div id="startGamePopup" class="popup hidden">
-  <div class="popup-content small-popup">
-    Please press <strong>Start Game</strong>
-  </div>
-</div>
-
-<div id="bombPopup" class="popup hidden">
-  <div class="bomb-content">
-    💣 BOOM!<br>
-    You hit a bomb!
-  </div>
-</div>
-
-<!-- Date and Time Bottom Right -->
-<div id="datetime" class="datetime-bottom-right"></div>
-
-
-
-<!-- Avatar Modal -->
-<div id="profileModal" class="popup hidden">
-  <div class="popup-content avatar-popup">
-    <button class="close-btn" onclick="closeProfile()">✕</button>
-    <img src="assets/avatar/1.png" alt="Avatar" class="avatar-modal-img" />
-    <p class="nickname-label">Nickname: <span id="playerNickname">player123</span></p>
-    <p class="balance-label">Balance: ₱<span id="playerBalance">0.00</span></p>
-  </div>
-</div>
-
-
-<!-- Cashout Modal -->
-<div id="cashoutModal" class="popup hidden">
-  <div class="popup-content small-popup">
-    <strong>📤 Cash Out</strong><br>
-    Enter GCash number and amount<br><br>
-    <input type="text" placeholder="09XXXXXXXXX" class="input-field" /><br>
-    <input type="number" placeholder="Amount" class="input-field" /><br><br>
-    <button class="button btn small">Submit</button>
-    <button class="button btn small" onclick="closeModal('cashoutModal')">Cancel</button>
-  </div>
-</div>
-
-<!-- Deposit Modal -->
-<div id="depositModal" class="popup hidden">
-  <div class="popup-content deposit-popup">
-    <button class="close-btn" onclick="closeDeposit()">✕</button>
-    <h3>Deposit</h3>
-
-    <div class="quick-amounts">
-      <button onclick="selectDepositAmount(20)">₱20</button>
-      <button onclick="selectDepositAmount(50)">₱50</button>
-      <button onclick="selectDepositAmount(100)">₱100</button>
-      <button onclick="selectDepositAmount(200)">₱300</button>
-      <button onclick="selectDepositAmount(500)">₱500</button>
-      <button onclick="selectDepositAmount(1000)">₱1000</button>
-    </div>
-
-    <p style="margin-top: 15px;">Scan QR to complete payment:</p>
-    <div class="qr-wrapper">
-      <img src="assets/images/gcash-qr.png" alt="GCash QR Code" />
-    </div>
-
-    <p style="margin-top: 10px;">Or enter manually:</p>
-    <input type="number" id="depositAmount" placeholder="₱ Amount" min="1" step="1" />
-
-    <button class="button btn-deposit" onclick="confirmDeposit()">💰 Confirm Deposit</button>
-  </div>
-</div>
-
-
-
-
-</body>
+      <!-- Press Start Game First Popup -->
+      <div id="startGamePopup" class="popup hidden">
+         <div class="popup-content small-popup">
+            Please press <strong>Start Game</strong>
+         </div>
+      </div>
+      <div id="bombPopup" class="popup hidden">
+         <div class="bomb-content">
+            💣 BOOM!<br>
+            You hit a bomb!
+         </div>
+      </div>
+      <!-- Date and Time Bottom Right -->
+      <div id="datetime" class="datetime-bottom-right"></div>
+      <!-- Avatar Modal -->
+      <div id="avatarModal" class="popup hidden">
+         <div class="popup-content small-popup" style="position: relative;">
+            <!-- Avatar image wrapper with close button -->
+            <div class="avatar-wrapper">
+               <img src="assets/avatar/1.png" alt="Avatar" class="avatar-img" />
+               <button class="close-btn" onclick="closeAvatarModal()">✖</button>
+            </div>
+            <p><strong>Nickname:</strong> <span id="playerNickname">Player1</span></p>
+            <p><strong>Balance:</strong> ₱<span id="playerBalanceModal">0.00</span></p>
+         </div>
+      </div>
+      <!-- Cash Out Modal -->
+      <div id="cashoutModal" class="popup hidden">
+         <div class="popup-content small-popup cashout-box">
+            <!-- Close Button -->
+            <span class="close-btn inside" onclick="closeCashoutModal()">✖</span>
+            <h3>Cash Out</h3>
+            <input type="text" id="cashoutNumber" placeholder="GCash Number (e.g. 09*********)" />
+            <div class="quick-amounts">
+               <button onclick="setCashoutAmount(100)">₱100</button>
+               <button onclick="setCashoutAmount(300)">₱300</button>
+               <button onclick="setCashoutAmount(500)">₱500</button>
+               <button onclick="setCashoutAmount(1000)">₱1000</button>
+            </div>
+            <input type="number" id="cashoutAmount" placeholder="Amount (₱)" min="1" />
+            <button class="button btn-deposit-confirm" onclick="confirmCashout()">✔ Confirm Cash Out</button>
+         </div>
+      </div>
+      <!-- Verifying Cash Out Popup -->
+      <div id="cashoutVerifyPopup" class="popup hidden">
+         <div class="popup-content small-popup">
+            ⏳ Please wait, we’re verifying your cash out...
+         </div>
+      </div>
+      <!-- Deposit Modal -->
+      <div id="depositModal" class="popup hidden">
+         <div class="popup-content deposit-popup">
+            <button class="close-btn" onclick="closeDeposit()">✕</button>
+            <h3>Deposit</h3>
+            <div class="quick-amounts">
+               <button onclick="selectDepositAmount(20)">₱20</button>
+               <button onclick="selectDepositAmount(50)">₱50</button>
+               <button onclick="selectDepositAmount(100)">₱100</button>
+               <button onclick="selectDepositAmount(200)">₱300</button>
+               <button onclick="selectDepositAmount(500)">₱500</button>
+               <button onclick="selectDepositAmount(1000)">₱1000</button>
+            </div>
+            <p style="margin-top: 15px;">Scan QR to complete payment:</p>
+            <div class="qr-wrapper">
+               <img src="assets/images/gcash-qr.png" alt="GCash QR Code" />
+            </div>
+            <p style="margin-top: 10px;">Or enter manually:</p>
+            <input type="number" id="depositAmount" placeholder="₱ Amount" min="1" step="1" />
+            <button class="button btn-deposit-confirm" onclick="confirmDeposit()">✔ Confirm Deposit</button>
+         </div>
+      </div>
+      <div id="verifyingPopup" class="popup hidden">
+         <div class="popup-content small-popup">
+            ⏳ Please wait, we're verifying your transaction...
+         </div>
+      </div>
+      <!-- Cashout Popup Message -->
+      <div id="cashoutPopup" class="popup hidden">
+         <div class="popup-content small-popup">
+            ✅ <strong>Request Received</strong><br>
+            Please wait while we verify your transaction...
+         </div>
+      </div>
+   </body>
 </html>
