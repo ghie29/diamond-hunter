@@ -1,0 +1,8 @@
+# Prevent directory browsing
+Options -Indexes
+
+# Restrict access to sensitive files
+<FilesMatch "\.(htaccess|env|json|config)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
